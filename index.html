@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Team EtherArc</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Open Sans', sans-serif;
+            scroll-behavior: smooth;
+            /* Smooth scrolling behavior */
+        }
+
+        /* Background Styles */
+        .bg-main,
+        .bg-secondary {
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: relative;
+        }
+
+        .bg-main {
+            background-image: url('1706419727477.png');
+        }
+
+        .bg-secondary {
+            background-image: url('bizhi.jpg');
+            text-align: center;
+        }
+        .bg-secondary:nth-child(3) {
+    background-image: url('背景.png');
+}
+.bg-secondary:nth-child(4) {
+    background-image: url('new-background-image.jpg');
+}
+
+        
+
+        /* Menu Styles */
+        .menu-toggle {
+            font-size: 1.5rem;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1100;
+            transition: transform 0.3s ease;
+            /* Add animation */
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.1);
+            /* Add hover animation */
+        }
+
+        .menu {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            /* Slide menu off-screen initially */
+            width: 250px;
+            height: 100vh;
+            background-color: rgba(255, 255, 255, 0.8);
+            /* Semi-transparent menu background */
+            transition: left 0.5s ease-in-out;
+            padding-top: 60px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .menu.open {
+            left: 0;
+        }
+
+        .menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu ul li {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .menu ul li:last-child {
+            border-bottom: none;
+        }
+
+        .menu ul li:hover {
+            background-color: #f8f9fa;
+        }
+
+        .menu ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        /* Overlay Styles */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        /* Content Styles */
+        .content {
+            text-align: center;
+            padding: 20px;
+            opacity: 0;
+            /* Start with zero opacity */
+            animation: fadeIn 2s forwards;
+            /* Fade in animation */
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .content h1,
+        .content h2,
+        .content p {
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            /* Add text shadow */
+        }
+
+        .content button {
+            background-color: #fff;
+            color: #000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .content button:hover {
+            background-color: #f8f9fa;
+        }
+
+        /* Scroll to Top Button Styles */
+        #scroll-top-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 12px 16px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        #scroll-top-btn:hover {
+            background-color: #555;
+        }
+
+        /* Down Arrow Styles */
+        .down-arrow {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #4f4e4e;
+            /* Change arrow color */
+            font-size: 3rem;
+            /* Increase arrow size */
+            cursor: pointer;
+            z-index: 1000;
+            animation: bounce 1s infinite alternate;
+            /* Add bounce animation */
+        }
+
+        /* Bounce Animation */
+        @keyframes bounce {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(10px);
+            }
+        }
+
+        /* Adjust menu toggle position for smaller screens */
+        @media screen and (max-width: 600px) {
+            .menu-toggle {
+                top: 10px;
+                left: 10px;
+            }
+        }
+
+        /* Adjust image size for larger screens */
+        @media screen and (min-width: 768px) {
+            .content img {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+
+        /* Additional Menu Styles */
+        .menu-header {
+            padding: 1rem;
+            text-align: center;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #eee;
+        }
+
+        .menu-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .menu-item {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .menu-item a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .content h1 {
+            font-size: 2.9rem; /* 标题的字体大小 */
+        }
+
+        .content p {
+            font-size: 1.5rem; /* 段落的字体大小 */
+        }
+        .menu-toggle {
+    font-size: 2rem; /* Adjust the font size as needed */
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1100;
+    transition: transform 0.3s ease;
+    /* Add animation */
+}
+/* 在手机端，调整箭头的位置 */
+@media screen and (max-width: 600px) {
+    .down-arrow {
+        position: fixed;
+        bottom: 10px;
+        left: calc(50% - 20px); /* 20px 是箭头宽度的一半 */
+        transform: none; /* 取消 transform 属性 */
+    }
+}
+
+
+    </style>
+</head>
+
+<body>
+    <div class="bg-main">
+        <div class="menu-toggle">
+            <i class="fas fa-bars text-4xl"></i>
+        </div>
+        <div class="overlay"></div>
+        <div class="menu">
+            <div class="menu-header">
+                <h2>Menu</h2>
+            </div>
+            <div class="menu-items">
+                <div class="menu-item"><a href="#">Menu Item 1</a></div>
+                <div class="menu-item"><a href="#">Menu Item 2</a></div>
+                <div class="menu-item"><a href="#">Menu Item 3</a></div>
+                <div class="menu-item"><a href="#">Menu Item 4</a></div>
+            </div>
+        </div>
+        <div class="content">
+            <h1>Team EtherArc</h1>
+            <p>要来看我们的最新项目吗？</p>
+        </div>
+        <!-- Down Arrow Icon -->
+        <div class="down-arrow"><i class="fas fa-chevron-down"></i></div>
+        <!-- Replace with the double angle quotation mark -->
+    </div>
+
+    <div class="bg-secondary">
+        <div class="content">
+            <h1>什么是Team EtherArc？</h1>
+            <h2>这是一个由一群热爱兽圈的年轻人开发的RPG类的游戏。</h2>
+            <h2>我们致力于为兽圈玩家提供最有趣的游戏体验。</h2>
+            <div class="down-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+
+    </div>
+    <div class="bg-secondary">
+        <div class="content">
+            
+            <div class="down-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+    </div>
+    <div class="bg-secondary">
+        <div class="content">
+            <h1>什么是Team EtherArc？</h1>
+            <h2>这是一个由一群热爱兽圈的年轻人开发的RPG类的游戏。</h2>
+            <h2>我们致力于为兽圈玩家提供最有趣的游戏体验。</h2>
+            
+            <div class="down-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+    </div>
+
+
+
+    <!-- Scroll to Top Button -->
+    <button id="scroll-top-btn"><i class="fas fa-arrow-up"></i></button>
+
+    <!-- External scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/v4-shims.min.js"></script>
+    <script>
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuToggle = document.querySelector(".menu-toggle");
+            const menu = document.querySelector(".menu");
+            const overlay = document.querySelector(".overlay");
+            const scrollTopBtn = document.getElementById("scroll-top-btn");
+            const downArrows = document.querySelectorAll(".down-arrow");
+
+            menuToggle.addEventListener("click", function () {
+                menu.classList.toggle("open");
+                overlay.style.display = menu.classList.contains("open") ? "block" : "none";
+            });
+
+            overlay.addEventListener("click", function () {
+                menu.classList.remove("open");
+                overlay.style.display = "none";
+            });
+
+            window.addEventListener("scroll", function () {
+                scrollTopBtn.style.display = window.scrollY > 100 ? "block" : "none";
+            });
+
+            downArrows.forEach(function (downArrow) {
+                downArrow.addEventListener("click", function () {
+                    window.scrollBy({
+                        top: window.innerHeight,
+                        behavior: "smooth"
+                    });
+                    downArrow.classList.add("bounce-animation");
+                    setTimeout(() => {
+                        downArrow.classList.remove("bounce-animation");
+                    }, 1000); // Remove the class after the animation duration
+                });
+            });
+
+            // Scroll to next section when scrolling to the bottom of the page
+            window.addEventListener("scroll", function () {
+                if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
+                    scrollToNextSection();
+                }
+            });
+
+            scrollTopBtn.addEventListener("click", function () {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            });
+
+            function scrollToNextSection() {
+                // Find the next section after the current visible section
+                const currentScrollPosition = window.scrollY;
+                const sections = document.querySelectorAll(".bg-secondary");
+                let nextSectionIndex = -1;
+
+                sections.forEach(function (section, index) {
+                    const sectionTop = section.offsetTop;
+                    if (sectionTop > currentScrollPosition && nextSectionIndex === -1) {
+                        nextSectionIndex = index;
+                    }
+                });
+
+                // If a next section is found, scroll to it
+                if (nextSectionIndex !== -1) {
+                    const nextSection = sections[nextSectionIndex];
+                    window.scrollTo({
+                        top: nextSection.offsetTop,
+                        behavior: "smooth"
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
